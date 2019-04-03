@@ -300,3 +300,84 @@ public static double lnN(int N) {
     }
 }
 ```
+
+
+## 1.1.21
+
+```Java
+import edu.princeton.cs.algs4.StdIn;
+
+/**
+ * Ex_1_1_21
+ */
+public class Ex_1_1_21 {
+
+    public static void main(String[] args) {
+        while (StdIn.hasNextLine()) {
+            String name = StdIn.readString();
+            int value_a = StdIn.readInt();
+            int value_b = StdIn.readInt();
+            System.out.printf("%8s|%8d|%8d|%8.3f\n",name, value_a, value_b, (value_a * 1.0 / value_b));
+        }
+    }
+}
+```
+
+准备了一个测试用例`student.txt`.
+
+```txt
+Bob 6 3
+Jack 7 4
+Marry 9 5
+```
+
+运行方式`java Ex_1_1_21 < student.txt`
+
+## 1.1.22
+
+只要在迭代的rank函数中加上一个depth的参数即可。
+
+生成n个spaces的String的参考了这个[链接](https://codereview.stackexchange.com/questions/47986/printing-80-or-more-times-the-same-character)
+
+```Java
+public static int rank(int key, int[] a, int lo, int hi, int depth) {
+    if (lo > hi) return -1;
+    int mid = lo + (hi - lo) / 2;
+    char[] spaces_char = new char[depth];
+    Arrays.fill(spaces_char, ' ');
+    String spaces = new String(spaces_char);
+    if (key < a[mid]) {
+        System.out.print(spaces);
+        System.out.printf("lo: %6d - hi: %6d\n", lo, hi);
+        return rank(key, a, lo, mid - 1, depth + 1);
+    } else if (key > a[mid]) {
+        System.out.print(spaces);
+        System.out.printf("lo: %6d - hi: %6d\n", lo, hi);
+        return rank(key, a, mid + 1, hi, depth + 1);
+    } else {
+        return mid;
+    }
+}
+```
+
+## 1.1.23
+
+判断一下`rank()`的返回值即可，这里修改了一下传入的方式，书上的代码过时了，编译的时候的警告。
+
+```Java
+public static void main(String[] args) {
+    In in = new In(args[0]);
+    int[] whitelist = in.readAllInts();
+
+    Arrays.sort(whitelist);
+
+    while (!StdIn.isEmpty()) {
+        int key = StdIn.readInt();
+        if (rank(key, whitelist) < 0) {
+            System.out.println("+ " + key);
+        } else {
+            System.out.println("- " + key);
+        }
+    }
+}
+```
