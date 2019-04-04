@@ -1,4 +1,4 @@
 algs4-data/*
 */*.class
-exercises/*/*.class
+*/*/*.class
 .vscode
