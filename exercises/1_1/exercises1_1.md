@@ -364,18 +364,32 @@ public static int rank(int key, int[] a, int lo, int hi, int depth) {
 
 判断一下`rank()`的返回值即可，这里修改了一下传入的方式，书上的代码过时了，编译的时候的警告。
 
+运行脚本：
+
+```shell
+# for those in whitelist
+java Ex_1_1_23 tinyW.txt + < tinyT.txt
+# for those not whitelist
+java Ex_1_1_23 tinyW.txt - < tinyT.txt
+```
+
 ```Java
 public static void main(String[] args) {
     In in = new In(args[0]);
     int[] whitelist = in.readAllInts();
 
+    String check = args[1];
+
     Arrays.sort(whitelist);
 
-    while (!StdIn.isEmpty()) {
-        int key = StdIn.readInt();
-        if (rank(key, whitelist) < 0) {
+    if (check.equals("+")) {
+        while (!StdIn.isEmpty()) {
+            int key = StdIn.readInt();
             System.out.println("+ " + key);
-        } else {
+        }
+    } else {
+        while (!StdIn.isEmpty()) {
+            int key = StdIn.readInt();
             System.out.println("- " + key);
         }
     }

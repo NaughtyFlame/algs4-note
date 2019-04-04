@@ -9,16 +9,22 @@ public class Ex_1_1_23 {
         In in = new In(args[0]);
         int[] whitelist = in.readAllInts();
 
+        String check = args[1]; 
+
         Arrays.sort(whitelist);
 
-        while (!StdIn.isEmpty()) {
-            int key = StdIn.readInt();
-            if (rank(key, whitelist) < 0) {
+        if (check.equals("+")) {
+            while (!StdIn.isEmpty()) {
+                int key = StdIn.readInt();
                 System.out.println("+ " + key);
-            } else {
+            }
+        } else {
+            while (!StdIn.isEmpty()) {
+                int key = StdIn.readInt();
                 System.out.println("- " + key);
             }
         }
+        
     }
     
     public static int rank(int key, int[] a) {
