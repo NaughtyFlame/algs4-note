@@ -385,13 +385,85 @@ public static void main(String[] args) {
     if (check.equals("+")) {
         while (!StdIn.isEmpty()) {
             int key = StdIn.readInt();
-            System.out.println("+ " + key);
+            if (rank(key, whitelist) >= 0) {
+                System.out.println("+ " + key);
+            }
         }
     } else {
         while (!StdIn.isEmpty()) {
             int key = StdIn.readInt();
-            System.out.println("- " + key);
+            if (rank(key, whitelist) < 0) {
+                System.out.println("- " + key);
+            }
         }
     }
+}
+```
+
+## 1.1.24
+
+```Java
+public static int gcd(int p, int q) {
+    System.out.println(p + " " + q);
+    if (q == 0) return p;
+    int r = p % q;
+    return gcd(q, r);
+}
+```
+
+## 1.1.25
+
+简单证明（非归纳法）。
+
+$a=kb+r$
+
+设d为a,b的公约数
+
+$r= a-kb$
+
+$\frac{r}{d}=\frac{a}{d}-k\frac{b}{d}=m$
+
+可知，$\frac{a}{d}$和$\frac{b}{d}$都是整数，那么d也是r的约数。
+
+## 1.1.26
+
+简单的交换策略。
+
+## 1.1.27
+
+这个题目一开始看可能会不太懂，主要是因为对二项分布不太熟悉。函数的返回的是进行N次实验，其中成功k次(成功的概率是p)。那么概率可以用递归求解。
+
+$$P(N,k) = (1-p)*P(N-1,k) + p*P(N-1,k-1)$$
+
+也就是说对于第N次成功k次的概率是，前N-1次成功k次并且第N次失败的概率，加上，前N-1次成功k-1次并且第N次成功的概率。
+这个问题可以转换成动态规划问题。
+
+```Java
+double metric = new double[][];
+// init metric here.
+
+metric[N][K] = (1-p) * metric[N-1][K] + p * metric[N-1][K-1];
+```
+
+## 1.1.28
+
+一开始以为是要用BinarySearch进行去重的操作。实际上只需要去重即可。
+输入一个排序过的array，返回去重的array。
+
+```Java
+public static int[] duplicates(int[] array) {
+    if (array.length <= 1) {
+        return array;
+    }
+    // tag indique the end of no duplicates array.
+    int tag = 0;
+
+    for (int i = 1; i < array.length; i++) {
+        if (array[i] != array[i-1]) {
+            array[tag+1] = array[i];
+            tag += 1;
+        }
+    }
+    return Arrays.copyOfRange(array, 0, tag+1);
 }
 ```

@@ -16,12 +16,16 @@ public class Ex_1_1_23 {
         if (check.equals("+")) {
             while (!StdIn.isEmpty()) {
                 int key = StdIn.readInt();
-                System.out.println("+ " + key);
+                if (rank(key, whitelist) >= 0) {
+                    System.out.println("+ " + key);                    
+                }
             }
         } else {
             while (!StdIn.isEmpty()) {
                 int key = StdIn.readInt();
-                System.out.println("- " + key);
+                if (rank(key, whitelist) < 0) {
+                    System.out.println("- " + key);                    
+                }
             }
         }
         
