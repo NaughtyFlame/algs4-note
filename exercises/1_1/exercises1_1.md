@@ -534,4 +534,37 @@ for (int i = 0; i < N; i++) {
     }
 }
 ```
+
 可以看到这里只循环了右上角，可以同时给出[i,j]和[j,i]位置的值。
+
+## 1.1.31
+
+首先画圆，用N*2的数组保存点的坐标。求点的坐标可以通过角度求解，每次划过的角度是pi/N,然后用三角函数求解点的x坐标和y坐标。
+
+```Java
+StdDraw.circle(0.5, 0.5, r);
+
+// calculate the location of points.
+double[][] points = new double[N][2];
+for (int i = 0; i < N; i++) {
+    points[i][0] = Math.cos(2 * Math.PI / N * i) * r + .5;
+    points[i][1] = Math.sin(2 * Math.PI / N * i) * r + .5;
+    StdDraw.point(points[i][0], points[i][1]);
+}
+```
+
+然后按概率划线。
+
+```Java
+// draw lines
+for (int i = 0; i < N-1; i++) {
+    for (int j = i+1; j < N; j++) {
+        if (StdRandom.bernoulli(p)) {
+            StdDraw.line(points[i][0], points[i][1], points[j][0], points[j][1]);
+        }
+    }
+}
+```
+
+## 1.1.32
+
