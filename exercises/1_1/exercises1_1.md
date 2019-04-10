@@ -467,3 +467,71 @@ public static int[] duplicates(int[] array) {
     return Arrays.copyOfRange(array, 0, tag+1);
 }
 ```
+
+## 1.1.29
+
+对于`rank()`函数，需要修改它的停止条件。对于目标mid,它有这样的特性，a[mid]要小于key，且a[mid+1]要大于等于key，这样的mid就是边界。
+
+```Java
+public static int rank(int key, int[] a) {
+    int lo = 0;
+    int hi = a.length - 1;
+    if (key > a[hi]) return hi + 1;
+    while (lo <= hi) {
+        int mid = lo + (hi-lo) / 2;
+        if (a[mid] < key && a[mid+1] == key) {
+            return mid + 1;
+        } else if (a[mid] >= key) {
+            hi = mid - 1;
+        } else {
+            lo = mid + 1;
+        }
+    }
+
+    return 0;
+}
+```
+
+对于`count()`函数，我们可以用`rank()`，这样就找到了目标位置的前一位，然后一一对比计数即可。
+
+```Java
+public static int count(int key, int[] a) {
+    int i = rank(key, a);
+    int count_equal = 0;
+    while (i < a.length && a[i] == key) {
+        count_equal += 1;
+        i += 1;
+    }
+
+    return count_equal;
+}
+```
+
+## 1.1.30
+
+首先判断互质可以用辗转相除法，如果公约数大于1，就不是互质。(Ex_1_1_24.class中的gcd, 不过稍微要进行修改，因为输入有0和1，所以要同时对两个参数进行判断)
+
+```Java
+public static int gcd(int p, int q) {
+    if (q == 0 || p == 0) return p; // check both p and q.
+    int r = p % q;
+    return gcd(q, r);
+}
+```
+
+另外可以加速的方式是，可以用先求右上角的值，因为左下角就是i和j的顺序交换了，是否互质的结果是相同的。
+
+```Java
+for (int i = 0; i < N; i++) {
+    for (int j = i; j < N; j++) {
+        if (gcd(i, j) > 1) {
+            metric[i][j] = false;
+            metric[j][i] = false;
+        } else {
+            metric[i][j] = true;
+            metric[j][i] = true;
+        }
+    }
+}
+```
+可以看到这里只循环了右上角，可以同时给出[i,j]和[j,i]位置的值。
